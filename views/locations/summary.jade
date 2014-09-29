@@ -7,7 +7,7 @@ block content
     h2 URL
     
     div.ident1
-      a(href='http://localhost:3000/locations/') http://localhost:3000/locations/
+      a(href='http://logsense.herokuapp.com/locations') http://localhost:3000/locations/
     
     h2 Paths
     
@@ -21,13 +21,13 @@ block content
         tr
           td GET
           td
-            a(href='http://localhost:3000/locations/') /
+            a(href='http://logsense.herokuapp.com/locations') /
           td Returns Locations' list as JSON.
 
         tr.grayrow
           td GET
           td 
-            a(href='http://localhost:3000/locations/summary') /summary
+            a(href='http://logsense.herokuapp.com/locations/summary') /summary
           td Returns this page.
 
         tr
@@ -47,7 +47,9 @@ block content
         tr
           th.span Key
           th Value
+          th Description
   
         tr
           td isClearEnabled
           td #{isClearEnabled}
+          td It enables HTTP DELETE verb to clear Locations' resource list. 
