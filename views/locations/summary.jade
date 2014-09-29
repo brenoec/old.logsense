@@ -1,0 +1,53 @@
+extends ../layout
+
+block content
+  h1 #{title} @ Locations
+  
+  div.ident1
+    h2 URL
+    
+    div.ident1
+      a(href='http://localhost:3000/locations/') http://localhost:3000/locations/
+    
+    h2 Paths
+    
+    table
+      tbody
+        tr
+          th.span Verb
+          th.span Path
+          th Description
+
+        tr
+          td GET
+          td
+            a(href='http://localhost:3000/locations/') /
+          td Returns Locations' list as JSON.
+
+        tr.grayrow
+          td GET
+          td 
+            a(href='http://localhost:3000/locations/summary') /summary
+          td Returns this page.
+
+        tr
+          td POST
+          td /
+          td Add a Location to resource's list. Try post: { system: 'System Name' }
+
+        tr.grayrow
+          td DELETE
+          td /
+          td If #[strong isClearEnabled] is true, it clears Locations. Otherwise nothing happens.
+
+    h2 Configurations
+    
+    table
+      tbody
+        tr
+          th.span Key
+          th Value
+  
+        tr
+          td isClearEnabled
+          td #{isClearEnabled}

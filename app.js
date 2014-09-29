@@ -7,24 +7,27 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var locations = require('./routes/locations');
 
 var env = 'remote';
 
 // connects to mongodb
 var mongoose = require('mongoose');
+var mongo;
 
 if (env === 'remote') {
-  // remote
-  mongoose.connect('mongodb://brenosouza:cefetmglogsense@kahana.mongohq.com:10045/app30139807/test');
+  mongo = 'mongodb://brenosouza:cefetmglogsense@kahana.mongohq.com:10045/app30139807/test';
+  mongoose.connect(mongo);
 } else {
   // localhost
-  mongoose.connect('mongodb://localhost/test');
+  mongo = 'mongodb://localhost/test';
+  mongoose.connect(mongo);
 }
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'mongoose connection'));
 db.once('open', function callback () {
-  console.log('mongoose connection [Opened: connected to [' + env + '/test]]');
+  console.log('mongoose connection [Opened: connected to [' + mongo + ']]');
 });
 
 var app = express();
@@ -43,6 +46,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/locations', locations);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -74,6 +78,5 @@ app.use(function(err, req, res, next) {
         error: {}
     });
 });
-
 
 module.exports = app;
