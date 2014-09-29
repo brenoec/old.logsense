@@ -8,6 +8,25 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+var env = 'remote';
+
+// connects to mongodb
+var mongoose = require('mongoose');
+
+if (env === 'remote') {
+  // remote
+  mongoose.connect('mongodb://brenosouza:cefetmglogsense@kahana.mongohq.com:10045/app30139807/test');
+} else {
+  // localhost
+  mongoose.connect('mongodb://localhost/test');
+}
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'mongoose connection'));
+db.once('open', function callback () {
+  console.log('mongoose connection [Opened: connected to [' + env + '/test]]');
+});
+
 var app = express();
 
 // view engine setup
