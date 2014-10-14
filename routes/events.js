@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+var Event = require('../models/event');
+var Interaction = require('../models/interaction');
 var Location = require('../models/location');
 
 var isClearCollectionEnabled = true;
@@ -9,24 +11,14 @@ var isClearEntityEnabled = true;
 /* GET: returns Locations */
 router.get('/', function(req, res) {
 
-  Location.find(function (err, locations) {
+  Event.find(function (err, events) {
     if (err) {
       console.error(err);
       res.send(err);
     }
 
-    res.json(locations);
+    res.json(events);
   });
-});
-
-/* GET: returns Locations' summary */
-router.get('/summary', function(req, res) {
-
-  res.render('locations/summary',
-    {
-      title: 'logsense',
-      isClearEnabled: isClearCollectionEnabled
-    });
 });
 
 /* GET: returns Locations */
@@ -34,32 +26,47 @@ router.get('/:id', function(req, res) {
 
   var id = req.param("id");
 
-  Location.findOne( { "_id" : id }, function (err, location) {
+  Event.findOne( { "_id" : id }, function (err, event) {
     if (err) {
       console.error(err);
       res.send(err);
     }
 
-    res.json(location);
+    res.json(event);
   });
 });
 
 /* POST: creates a Location */
 router.post('/', function(req, res) {
 
-  var location = new Location();
-  location.system = req.body.system;
+  var event = new Event();
 
-  location.save(function(err) {
-		if (err) {
-		  console.error(err);
-			res.send(err);
-		}
+  // locations
+  event.locations;
 
-		console.log(req.body);
+  var query = { _id : req.body.locations.previous };
+  Location.findOne( query, function (err, location) {
+    event.locations.push( { previous: location } );
 
-		res.json(location);
-	});
+    query = { _id : req.body.locations.at };
+    Location.findOne( query, function (err, location) {
+      event.locations.push( { at: location } );
+
+      query = { _id : req.body.locations.target };
+      Location.findOne( query, function (err, location) {
+        event.locations.push( { target: location } );
+
+        event.save(function(err) {
+          if (err) {
+      		  console.error(err);
+      			res.send(err);
+      		}
+
+      	  res.json(event);
+        });
+      });
+    });
+  });
 });
 
 /* DELETE: clears Locations */
@@ -67,13 +74,13 @@ router.delete('/', function(req, res) {
 
   if (isClearCollectionEnabled) {
 
-    Location.remove(function(err, locations) {
+    Event.remove(function(err, events) {
   		if (err) {
   		  console.error(err);
   			res.send(err);
   		}
 
-  		res.json(locations);
+  		res.json(events);
   	});
   } else {
 
@@ -89,13 +96,13 @@ router.delete('/:id', function(req, res) {
 
     var id = req.param("id");
 
-    Location.remove( { "_id" : id }, function(err, location) {
+    Event.remove( { "_id" : id }, function(err, event) {
   		if (err) {
   		  console.error(err);
   			res.send(err);
   		}
 
-  		res.json(location);
+  		res.json(event);
   	});
   } else {
 
