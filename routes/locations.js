@@ -6,7 +6,7 @@ var Location = require('../models/location');
 var isClearCollectionEnabled = true;
 var isClearEntityEnabled = true;
 
-/* GET: returns Locations */
+/* GET: return Locations */
 router.get('/', function(req, res) {
 
   Location.find(function (err, locations) {
@@ -19,7 +19,7 @@ router.get('/', function(req, res) {
   });
 });
 
-/* GET: returns Locations' summary */
+/* GET/summary: return Locations' summary */
 router.get('/summary', function(req, res) {
 
   res.render('locations/summary',
@@ -29,7 +29,7 @@ router.get('/summary', function(req, res) {
     });
 });
 
-/* GET: returns Locations */
+/* GET: return Locations */
 router.get('/:id', function(req, res) {
 
   var id = req.param("id");
@@ -44,8 +44,10 @@ router.get('/:id', function(req, res) {
   });
 });
 
-/* POST: creates a Location */
+/* POST: create a Location */
 router.post('/', function(req, res) {
+
+  // TODO: validate inputs
 
   var location = new Location();
   location.system = req.body.system;
@@ -62,7 +64,7 @@ router.post('/', function(req, res) {
 	});
 });
 
-/* DELETE: clears Locations */
+/* DELETE: delete Locations */
 router.delete('/', function(req, res) {
 
   if (isClearCollectionEnabled) {
@@ -82,7 +84,7 @@ router.delete('/', function(req, res) {
   }
 });
 
-/* DELETE: clears a Location */
+/* DELETE: delete a Location */
 router.delete('/:id', function(req, res) {
 
   if (isClearEntityEnabled) {

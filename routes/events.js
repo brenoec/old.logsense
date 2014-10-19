@@ -44,29 +44,35 @@ router.post('/', function(req, res) {
   // locations
   event.locations;
 
-  var query = { _id : req.body.locations.previous };
-  Location.findOne( query, function (err, location) {
-    event.locations.push( { previous: location } );
-
-    query = { _id : req.body.locations.at };
-    Location.findOne( query, function (err, location) {
+  var query;
+  var chain = [
+    function() {
+      query = { _id : req.body.locations.previous };
+      Location.findOne(query, chain.shift());
+    },
+    function(err, location) {
+      event.locations.push( { previous: location } );
+      query = { _id : req.body.locations.at };
+      Location.findOne(query, chain.shift());
+    }, function(err, location) {
       event.locations.push( { at: location } );
-
       query = { _id : req.body.locations.target };
-      Location.findOne( query, function (err, location) {
-        event.locations.push( { target: location } );
+      Location.findOne(query, chain.shift());
+    }, function(err, location) {
+      event.locations.push( { target: location } );
+      event.save(chain.shift());
+    },
+    function(err) {
+      if (err) {
+  		  console.error(err);
+  			res.send(err);
+  		}
 
-        event.save(function(err) {
-          if (err) {
-      		  console.error(err);
-      			res.send(err);
-      		}
+  	  res.json(event);
+    }
+  ];
 
-      	  res.json(event);
-        });
-      });
-    });
-  });
+  chain.shift()();
 });
 
 /* DELETE: clears Locations */
