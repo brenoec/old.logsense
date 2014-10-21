@@ -10,7 +10,7 @@ var users = require('./routes/users');
 var locations = require('./routes/locations');
 var events = require('./routes/events');
 
-var env = 'remote';
+var env = 'local';
 
 // connects to mongodb
 var mongoose = require('mongoose');

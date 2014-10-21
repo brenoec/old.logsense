@@ -1,45 +1,26 @@
 var express = require('express');
 var router = express.Router();
 
-var Location = require('../models/location');
+var Location = require('../models/LocationRepository');
+var LocationEngine = require('../engines/LocationEngine');
 
-var isClearCollectionEnabled = true;
-var isClearEntityEnabled = true;
+var isRemoveCollectionEnabled = true;
+var isRemoveDocumentEnabled = true;
 
 /* GET: return Locations */
 router.get('/', function(req, res) {
 
   Location.find(function (err, locations) {
-    if (err) {
-      console.error(err);
-      res.send(err);
-    }
-
     res.json(locations);
   });
 });
 
-/* GET/summary: return Locations' summary */
-router.get('/summary', function(req, res) {
-
-  res.render('locations/summary',
-    {
-      title: 'logsense',
-      isClearEnabled: isClearCollectionEnabled
-    });
-});
-
-/* GET: return Locations */
+/* GET: return Location */
 router.get('/:id', function(req, res) {
 
   var id = req.param("id");
 
   Location.findOne( { "_id" : id }, function (err, location) {
-    if (err) {
-      console.error(err);
-      res.send(err);
-    }
-
     res.json(location);
   });
 });
@@ -47,62 +28,56 @@ router.get('/:id', function(req, res) {
 /* POST: create a Location */
 router.post('/', function(req, res) {
 
-  // TODO: validate inputs
+  try {
 
-  var location = new Location();
-  location.system = req.body.system;
+    LocationEngine.validate(req.body.location);
 
-  location.save(function(err) {
-		if (err) {
-		  console.error(err);
-			res.send(err);
-		}
+    var location = new Location(req.body.location);
 
-		console.log(req.body);
+    location.save(function(err) {
+      res.status(201);
+	  	res.json(location);
+	  });
 
-		res.json(location);
-	});
+  } catch(err) {
+    res.status(400);
+    res.send('An error has occurred: ' + err);
+  }
 });
 
 /* DELETE: delete Locations */
 router.delete('/', function(req, res) {
 
-  if (isClearCollectionEnabled) {
+  if (isRemoveCollectionEnabled) {
 
     Location.remove(function(err, locations) {
-  		if (err) {
-  		  console.error(err);
-  			res.send(err);
-  		}
 
   		res.json(locations);
   	});
+
   } else {
 
     res.status(403);
-    res.send('Clear action is disabled for this resource.');
+    res.send('Delete action is disabled for this resource.');
   }
 });
 
 /* DELETE: delete a Location */
 router.delete('/:id', function(req, res) {
 
-  if (isClearEntityEnabled) {
+  if (isRemoveDocumentEnabled) {
 
     var id = req.param("id");
 
     Location.remove( { "_id" : id }, function(err, location) {
-  		if (err) {
-  		  console.error(err);
-  			res.send(err);
-  		}
 
   		res.json(location);
   	});
+
   } else {
 
     res.status(403);
-    res.send('Clear action is disabled for this resource.');
+    res.send('Delete action is disabled for this resource.');
   }
 });
 
