@@ -9,19 +9,20 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var locations = require('./routes/locations');
 var events = require('./routes/events');
+var interactions = require('./routes/interactions');
+var reports = require('./routes/reports');
 
-var env = 'local';
+var env = '';
 
 // connects to mongodb
 var mongoose = require('mongoose');
 var mongo;
 
-if (env === 'remote') {
-  mongo = 'mongodb://brenosouza:cefetmglogsense@kahana.mongohq.com:10045/app30139807/test';
+if (env === 'development') {
+  mongo = 'mongodb://localhost/test';
   mongoose.connect(mongo);
 } else {
-  // localhost
-  mongo = 'mongodb://localhost/test';
+  mongo = 'mongodb://brenosouza:cefetmglogsense@kahana.mongohq.com:10045/app30139807/test';
   mongoose.connect(mongo);
 }
 
@@ -49,6 +50,8 @@ app.use('/', routes);
 app.use('/users', users);
 app.use('/locations', locations);
 app.use('/events', events);
+app.use('/interactions', interactions);
+app.use('/reports', reports);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

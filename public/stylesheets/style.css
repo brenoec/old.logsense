@@ -1,8 +1,30 @@
+@import url(http://fonts.googleapis.com/css?family=Bree+Serif);
+
 body {
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px 'Bree Serif', serif, sans-serif;
+  background-color: #e5e5e5;
 }
 
-a {
-  color: #00B7FF;
+p.tab {
+  padding-left: 50px;
+}
+
+a:link {
+  color: #0077ff;
+  text-decoration: none;
+}
+
+a:visited {
+  color: #c00;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #007700;
+  text-decoration: underline;
+}
+
+a:active {
+  text-decoration: underline;
 }
