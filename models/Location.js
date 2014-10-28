@@ -8,7 +8,7 @@ var SpecialSchema = new Schema({
 
 var ApplicationSchema = new Schema({
   name: String,
-	module: String,         // namespace
+	domain: String,         // namespace
 	element: String,        // class
 	routine: String         // method
 });
@@ -19,7 +19,6 @@ var SubsystemSchema = new Schema({
 });
 
 var LocationSchema = new Schema({
-
 	// mandatory
 	system: String,
 	solution: String,

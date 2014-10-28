@@ -2,8 +2,15 @@
 
 body {
   padding: 50px;
-  font: 14px 'Bree Serif', serif, sans-serif;
+  font: 14px georgia, serif, sans-serif;
   background-color: #e5e5e5;
+  color: #333;
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background-color: #444;
 }
 
 p.tab {
@@ -27,4 +34,20 @@ a:hover {
 
 a:active {
   text-decoration: underline;
+}
+
+.selectedlocation {
+  background-color: #e2f8e2;
+}
+
+.location {
+  margin-bottom: 7px;
+  padding: 7px;
+  border: 1px solid black;
+}
+
+.location h3 {
+  font-weight: bold;
+  font-size: 1.25em;
+  color: #222;
 }

@@ -1,4 +1,3 @@
-
 var validate = function(location) {
 
   var isSpecial = false;

@@ -3,7 +3,7 @@ var mongoose = require('mongoose');
 
 var router = express.Router();
 
-var Event = require('../models/EventRepository');
+var Event = require('../models/Event');
 
 /* GET: returns Locations */
 router.get('/', function(req, res) {

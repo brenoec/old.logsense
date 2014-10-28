@@ -4,5 +4,71 @@ block content
   h1= title
   p Welcome to #{title}
 
-  h2 #{resource}' report
+  h2 Report: #{report}
 
+  each resource in resources
+    div(id=resource._id class='location')
+      p
+        strong Identifier: #{space}
+        a(href='/locations/' + resource._id) #{resource._id}
+
+      p
+        strong System:
+        |  #{resource.system}
+        br
+        strong Solution:
+        |  #{resource.solution}
+
+      hr
+
+      if resource.application[0]
+        h3 #{resource.application[0].name}: #{resource.application[0].routine} @ #{resource.application[0].domain}.#{resource.application[0].element}
+
+        p
+          strong Location's type:
+          |  Application
+        p
+          strong Name:
+          |  #{resource.application[0].name}
+          br
+          strong Domain:
+          |  #{resource.application[0].domain}
+          br
+          strong Element:
+          |  #{resource.application[0].element}
+          br
+          strong Routine:
+          |  #{resource.application[0].routine}
+
+      if resource.subsystem[0]
+        h3 #{resource.subsystem[0].type}: #{resource.subsystem[0].name}
+
+        p
+          strong Location's type:
+          |  Subsystem
+        p
+          strong Name:
+          |  #{resource.subsystem[0].name}
+          br
+          strong Type:
+          |  #{resource.subsystem[0].type}
+
+      else if resource.special[0]
+        h3 #{resource.subsystem[0].type}
+        |  #{resource.subsystem[0].name}
+
+        p
+          strong Location's type:
+          |  Special
+        p
+          strong Description:
+          |  #{resource.special[0].description}
+          br
+          strong Type:
+          |  #{resource.special[0].type}
+
+  script.
+    if(window.location.hash) {
+      var element = document.getElementById(window.location.hash.substring(1));
+      element.className = 'selectedlocation ' + element.className;
+    }

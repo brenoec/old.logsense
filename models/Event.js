@@ -19,7 +19,6 @@ var SubsystemSchema = new Schema({
 });
 
 var LocationSchema = new Schema({
-
 	// mandatory
 	system: String,
 	solution: String,
@@ -31,14 +30,13 @@ var LocationSchema = new Schema({
 	application: [ApplicationSchema],
 
 	// subsystem
-	subsystem: [SubsystemSchema]
+	subsystem: [SubsystemSchema],
 
 	// aditional information
-
+  type: String            // previous, current or target Location
 });
 
 var EventSchema = new Schema({
-
   // mandatory
 	locations: [LocationSchema]
 

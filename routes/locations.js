@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
-var Location = require('../models/LocationRepository');
+var Location = require('../models/Location');
+
 var LocationEngine = require('../engines/LocationEngine');
 
 var isRemoveCollectionEnabled = true;
@@ -56,7 +57,6 @@ router.delete('/', function(req, res) {
   	});
 
   } else {
-
     res.status(403);
     res.send('Delete action is disabled for this resource.');
   }
@@ -75,7 +75,6 @@ router.delete('/:id', function(req, res) {
   	});
 
   } else {
-
     res.status(403);
     res.send('Delete action is disabled for this resource.');
   }
