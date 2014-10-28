@@ -3,12 +3,12 @@ var router = express.Router();
 
 var http = require('http');
 
-var localoptions = {
+var options = localoptions = {
   host: 'localhost',
   port: '3000'
 };
 
-var options = remoteoptions = {
+var remoteoptions = {
   host: 'logsense.herokuapp.com'
 };
 

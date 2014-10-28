@@ -13,10 +13,6 @@ hr {
   background-color: #444;
 }
 
-p.tab {
-  padding-left: 50px;
-}
-
 a:link {
   color: #0077ff;
   text-decoration: none;
@@ -36,8 +32,18 @@ a:active {
   text-decoration: underline;
 }
 
+p.parameter {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
 .selectedlocation {
-  background-color: #e2f8e2;
+  background-color: #bdb;
+}
+
+.selectedlocation.location h3 {
+  font-weight: bold;
+  font-size: 1.25em;
 }
 
 .location {
@@ -50,4 +56,8 @@ a:active {
   font-weight: bold;
   font-size: 1.25em;
   color: #222;
+}
+
+.tab {
+  padding-left: 50px;
 }

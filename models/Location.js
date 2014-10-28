@@ -15,7 +15,14 @@ var ApplicationSchema = new Schema({
 
 var SubsystemSchema = new Schema({
   name: String,
-  type: String
+  type: String,
+  description: String
+});
+
+var ParameterSchema = new Schema({
+  name: String,
+  type: String,
+  value: String
 });
 
 var LocationSchema = new Schema({
@@ -30,7 +37,11 @@ var LocationSchema = new Schema({
 	application: [ApplicationSchema],
 
 	// subsystem
-	subsystem: [SubsystemSchema]
+	subsystem: [SubsystemSchema],
+
+	// inputs and outputs:
+	inputs: [ParameterSchema],
+	outputs: [ParameterSchema]
 
 	// aditional information
 

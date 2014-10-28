@@ -22,7 +22,7 @@ block content
       hr
 
       if resource.application[0]
-        h3 #{resource.application[0].name}: #{resource.application[0].routine} @ #{resource.application[0].domain}.#{resource.application[0].element}
+        h2 #{resource.application[0].name}: #{resource.application[0].routine} @ #{resource.application[0].domain}.#{resource.application[0].element}
 
         p
           strong Location's type:
@@ -41,7 +41,7 @@ block content
           |  #{resource.application[0].routine}
 
       if resource.subsystem[0]
-        h3 #{resource.subsystem[0].type}: #{resource.subsystem[0].name}
+        h2 #{resource.subsystem[0].type}: #{resource.subsystem[0].name}
 
         p
           strong Location's type:
@@ -54,8 +54,7 @@ block content
           |  #{resource.subsystem[0].type}
 
       else if resource.special[0]
-        h3 #{resource.special[0].type}
-        |  #{resource.special[0].name}
+        h2 #{resource.special[0].type}
 
         p
           strong Location's type:
@@ -66,6 +65,28 @@ block content
           br
           strong Type:
           |  #{resource.special[0].type}
+
+      hr
+
+      h3 Inputs
+
+      each input in resource.inputs
+        p.parameter
+          strong #{input.type}:
+          |  #{input.name}
+          br
+          if input.value
+            | #{input.value}
+
+      h3 Outputs
+
+      each output in resource.outputs
+        p.parameter
+          strong #{output.type}:
+          |  #{output.name}
+          br
+          if output.value
+            | #{output.value}
 
   script.
     if(window.location.hash) {
