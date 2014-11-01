@@ -3,7 +3,9 @@ var router = express.Router();
 
 var http = require('http');
 
-var options = localoptions = {
+var options = null;
+
+var localoptions = {
   host: 'localhost',
   port: '3000'
 };
@@ -14,6 +16,13 @@ var remoteoptions = {
 
 /* GET reports/locations. */
 router.get('/locations/:id?', function(req, res) {
+  if (req.app.get('env') === 'development') {
+    options = localoptions;
+    console.log('local options')
+  } else {
+    options = remoteoptions;
+  }
+
   var id = req.param("id");
 
   var chain = [

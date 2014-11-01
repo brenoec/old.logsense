@@ -12,19 +12,20 @@ var events = require('./routes/events');
 var interactions = require('./routes/interactions');
 var reports = require('./routes/reports');
 
-var env = '';
+var env = null;
+//var env = 'development';
 
 // connects to mongodb
 var mongoose = require('mongoose');
 var mongo;
 
-if (env === 'development') {
-  mongo = 'mongodb://localhost/test';
-  mongoose.connect(mongo);
-} else {
-  mongo = 'mongodb://brenosouza:cefetmglogsense@kahana.mongohq.com:10045/app30139807/test';
-  mongoose.connect(mongo);
-}
+//if (env === 'development') {
+//  mongo = 'mongodb://localhost/test';
+//  mongoose.connect(mongo);
+//} else {
+mongo = 'mongodb://brenosouza:cefetmglogsense@kahana.mongohq.com:10045/app30139807/test';
+mongoose.connect(mongo);
+//}
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'mongoose connection'));
@@ -33,6 +34,8 @@ db.once('open', function callback () {
 });
 
 var app = express();
+
+app.set('env', env);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
