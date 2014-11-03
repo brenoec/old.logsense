@@ -6,14 +6,14 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
-var users = require('./routes/users');
+
 var locations = require('./routes/locations');
-var events = require('./routes/events');
 var interactions = require('./routes/interactions');
+
 var reports = require('./routes/reports');
 
-var env = null;
-//var env = 'development';
+var env = 'development';
+//var env = null;
 
 // connects to mongodb
 var mongoose = require('mongoose');
@@ -50,9 +50,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
 app.use('/locations', locations);
-app.use('/events', events);
 app.use('/interactions', interactions);
 app.use('/reports', reports);
 

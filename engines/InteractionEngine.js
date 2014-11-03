@@ -1,4 +1,5 @@
-var validate = function(location) {
+var validate = function(interaction) {
+  console.log(interaction);
   return true;
 }
 

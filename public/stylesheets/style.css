@@ -37,19 +37,11 @@ p.parameter {
   margin-bottom: 4px;
 }
 
-.selectedlocation {
-  background-color: #bdb;
-}
-
-.selectedlocation.location h3 {
-  font-weight: bold;
-  font-size: 1.25em;
-}
-
 .location {
   margin-bottom: 7px;
   padding: 7px;
   border: 1px solid black;
+  background-color: #e5e5e5;
 }
 
 .location h3 {
@@ -60,4 +52,31 @@ p.parameter {
 
 .tab {
   padding-left: 50px;
+}
+
+.selected.interaction h3 {
+  font-weight: bold;
+  font-size: 1.25em;
+}
+
+.interaction {
+  margin-bottom: 7px;
+  padding: 7px;
+  border: 1px solid black;
+  background-color: #e5e5e5;
+}
+
+.interaction h3 {
+  font-weight: bold;
+  font-size: 1.25em;
+  color: #222;
+}
+
+.selected {
+  background-color: #bdb;
+}
+
+.selected.location h3 {
+  font-weight: bold;
+  font-size: 1.25em;
 }

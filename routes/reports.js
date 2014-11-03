@@ -16,9 +16,9 @@ var remoteoptions = {
 
 /* GET reports/locations. */
 router.get('/locations/:id?', function(req, res) {
+
   if (req.app.get('env') === 'development') {
     options = localoptions;
-    console.log('local options')
   } else {
     options = remoteoptions;
   }
@@ -45,14 +45,38 @@ router.get('/locations/:id?', function(req, res) {
   chain.shift()();
 });
 
-/* GET reports/events. */
-router.get('/events', function(req, res) {
-  res.render('reports/events', { title: 'logsense' });
-});
+/* GET reports/locations. */
+router.get('/interactions/:id?', function(req, res) {
+  console.log('interactions');
 
-/* GET reports/interactions. */
-router.get('/interactions', function(req, res) {
-  res.render('reports/interactions', { title: 'logsense' });
+  if (req.app.get('env') === 'development') {
+    options = localoptions;
+    console.log('local options');
+  } else {
+    options = remoteoptions;
+    console.log('remote options');
+  }
+
+  var id = req.param("id");
+
+  var chain = [
+    function() {
+      options.path = '/interactions';
+      if (id) {
+        options.path += '/#' + id;
+      }
+      http.get(options, chain.shift());
+    },
+    function(res) {
+      res.setEncoding('utf8');
+      res.on('data', chain.shift());
+    },
+    function(json) {
+      res.render('reports/interactions', { title: 'logsense', report: 'Interactions', resources: JSON.parse(json) });
+    }
+  ];
+
+  chain.shift()();
 });
 
 module.exports = router;
