@@ -12,8 +12,8 @@ var interactions = require('./routes/interactions');
 
 var reports = require('./routes/reports');
 
-var env = 'development';
-//var env = null;
+//var env = 'development';
+var env = null;
 
 // connects to mongodb
 var mongoose = require('mongoose');
