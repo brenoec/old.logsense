@@ -1,5 +1,4 @@
 var validate = function(interaction) {
-  console.log(interaction);
   return true;
 }
 

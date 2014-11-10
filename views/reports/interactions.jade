@@ -1,6 +1,95 @@
 extends ../layout
 
 block content
+  mixin RenderLocations(locations)
+    each location in locations
+      div(id=location._id class='location')
+        p
+          strong Identifier: #{space}
+          a(href='/locations/' + location._id) #{location._id}
+
+        p
+          strong System:
+          |  #{location.system}
+          br
+          strong Solution:
+          |  #{location.solution}
+
+        hr
+
+        if location.application && location.application[0]
+          h2 #{location.application[0].name}: #{location.application[0].routine} @ #{location.application[0].domain}.#{location.application[0].element}
+
+          p
+            strong Location's type:
+            |  Application
+          p
+            strong Name:
+            |  #{location.application[0].name}
+            br
+            strong Domain:
+            |  #{location.application[0].domain}
+            br
+            strong Element:
+            |  #{location.application[0].element}
+            br
+            strong Routine:
+            |  #{location.application[0].routine}
+
+        else if location.subsystem && location.subsystem[0]
+          h2 #{location.subsystem[0].type}: #{location.subsystem[0].name}
+
+          p
+            strong Location's type:
+            |  Subsystem
+          p
+            strong Name:
+            |  #{location.subsystem[0].name}
+            br
+            strong Type:
+            |  #{location.subsystem[0].type}
+
+        else if location.special && location.special[0]
+          h2 #{location.special[0].type}
+
+          p
+            strong Location's type:
+            |  Special
+          p
+            strong Description:
+            |  #{location.special[0].description}
+            br
+            strong Type:
+            |  #{location.special[0].type}
+
+        hr
+
+        h3 Inputs
+
+        each input in location.inputs
+          p.parameter
+            strong #{input.type}:
+            |  #{input.name}
+            br
+            if input.value
+              | #{input.value}
+
+        h3 Outputs
+
+        each output in location.outputs
+          p.parameter
+            strong #{output.type}:
+            |  #{output.name}
+            br
+            if output.value
+              | #{output.value}
+
+        if location.locations && location.locations.length > 0
+          a(class='expander' href='#') Location's Locations
+
+          .content
+            +RenderLocations(location.locations)
+
   h1= title
   p Welcome to #{title}
 
@@ -18,89 +107,15 @@ block content
         strong Description:
         |  #{resource.description}
 
-      each location in resource.locations
-        div(id=location._id class='location')
-          p
-            strong Identifier: #{space}
-            a(href='/locations/' + location._id) #{location._id}
+      a(class='expander' href='#') Interaction's Locations
 
-          p
-            strong System:
-            |  #{location.system}
-            br
-            strong Solution:
-            |  #{location.solution}
+      .content
+        +RenderLocations(resource.locations)
 
-          hr
-
-          if location.application[0]
-            h2 #{location.application[0].name}: #{location.application[0].routine} @ #{location.application[0].domain}.#{location.application[0].element}
-
-            p
-              strong Location's type:
-              |  Application
-            p
-              strong Name:
-              |  #{location.application[0].name}
-              br
-              strong Domain:
-              |  #{location.application[0].domain}
-              br
-              strong Element:
-              |  #{location.application[0].element}
-              br
-              strong Routine:
-              |  #{location.application[0].routine}
-
-          if location.subsystem[0]
-            h2 #{location.subsystem[0].type}: #{location.subsystem[0].name}
-
-            p
-              strong Location's type:
-              |  Subsystem
-            p
-              strong Name:
-              |  #{location.subsystem[0].name}
-              br
-              strong Type:
-              |  #{location.subsystem[0].type}
-
-          else if location.special[0]
-            h2 #{location.special[0].type}
-
-            p
-              strong Location's type:
-              |  Special
-            p
-              strong Description:
-              |  #{location.special[0].description}
-              br
-              strong Type:
-              |  #{location.special[0].type}
-
-          hr
-
-          h3 Inputs
-
-          each input in location.inputs
-            p.parameter
-              strong #{input.type}:
-              |  #{input.name}
-              br
-              if input.value
-                | #{input.value}
-
-          h3 Outputs
-
-          each output in location.outputs
-            p.parameter
-              strong #{output.type}:
-              |  #{output.name}
-              br
-              if output.value
-                | #{output.value}
   script.
     if(window.location.hash) {
       var element = document.getElementById(window.location.hash.substring(1));
       element.className = element.className + ' selected';
     }
+
+    $('.expander').simpleexpand();

@@ -1,12 +1,26 @@
 var express = require('express');
 var router = express.Router();
 
+var mongoose = require('mongoose');
+
 var Interaction = require('../models/Interaction');
 
 var InteractionEngine = require('../engines/InteractionEngine');
 
 var isRemoveCollectionEnabled = true;
 var isRemoveDocumentEnabled = true;
+
+function createLocationIdentifier(locations) {
+
+  if (locations && locations.length > 0) {
+    for (i = 0; i < locations.length; i++) {
+      locations[i]._id = mongoose.Types.ObjectId();
+      createLocationIdentifier(locations[i].locations);
+    }
+  }
+
+  return true;
+}
 
 /* GET: return Locations */
 router.get('/', function(req, res) {
@@ -34,6 +48,7 @@ router.post('/', function(req, res) {
     InteractionEngine.validate(req.body.interaction);
 
     var interaction = new Interaction(req.body.interaction);
+    createLocationIdentifier(interaction.locations);
 
     interaction.save(function(err) {
       if (err) throw err;

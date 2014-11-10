@@ -72,6 +72,16 @@ p.parameter {
   color: #222;
 }
 
+a.expander {
+  display: block;
+
+  margin-top: 17.5px;
+  margin-bottom: 17.5px;
+
+  font-weight: bold;
+  font-size: 1.25em;
+}
+
 .selected {
   background-color: #bdb;
 }

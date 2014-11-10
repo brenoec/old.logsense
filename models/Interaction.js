@@ -45,13 +45,11 @@ var LocationSchema = new Schema({
 });
 
 var InteractionSchema = new Schema({
-
   name: String,
 	description: String,
 	status: String,
 
 	locations: [LocationSchema]
-
 });
 
 module.exports = mongoose.model('Interaction', InteractionSchema);
