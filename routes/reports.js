@@ -47,14 +47,10 @@ router.get('/locations/:id?', function(req, res) {
 
 /* GET reports/locations. */
 router.get('/interactions/:id?', function(req, res) {
-  console.log('interactions');
-
   if (req.app.get('env') === 'development') {
     options = localoptions;
-    console.log('local options');
   } else {
     options = remoteoptions;
-    console.log('remote options');
   }
 
   var id = req.param("id");

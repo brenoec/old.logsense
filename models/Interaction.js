@@ -2,24 +2,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var SpecialSchema = new Schema({
-  description: String,
-  type: String
-});
-
-var ApplicationSchema = new Schema({
-  name: String,
-	domain: String,         // namespace
-	element: String,        // class
-	routine: String         // method
-});
-
-var SubsystemSchema = new Schema({
-  name: String,
-  type: String,
-  description: String
-});
-
 var ParameterSchema = new Schema({
   name: String,
   type: String,
@@ -31,12 +13,19 @@ var LocationSchema = new Schema({
 	system: String,
 	solution: String,
 
-  // location type
-  special: [SpecialSchema],
-	application: [ApplicationSchema],
-	subsystem: [SubsystemSchema],
+	title: String,
+	name: String,
 
-	// inputs and outputs:
+  type: String,
+
+	// mandatory for outer and special locations
+	description: String,
+
+	// if inner location
+	domain: String,         // namespace
+	element: String,        // class
+	routine: String,         // method
+
 	inputs: [ParameterSchema],
 	outputs: [ParameterSchema],
 
@@ -45,13 +34,11 @@ var LocationSchema = new Schema({
 });
 
 var InteractionSchema = new Schema({
-
   name: String,
 	description: String,
 	status: String,
 
 	locations: [LocationSchema]
-
 });
 
 module.exports = mongoose.model('Interaction', InteractionSchema);
