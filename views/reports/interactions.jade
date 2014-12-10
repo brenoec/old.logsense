@@ -6,7 +6,7 @@ block content
       div(id=location._id class='location')
         p
           strong Identifier: #{space}
-          a(href='/locations/' + location._id) #{location._id}
+          a(href='#' + location._id class='location-link') #{location._id}
 
         p
           strong System:
@@ -17,75 +17,64 @@ block content
 
         hr
 
-        if location.application && location.application[0]
-          h2 #{location.application[0].name}: #{location.application[0].routine} @ #{location.application[0].domain}.#{location.application[0].element}
+        if location.type === 'INNER'
+          h2 #{location.component}: #{location.routine} @ #{location.section}.#{location.element}
 
           p
             strong Location's type:
-            |  Application
+            |  #{location.type}
           p
-            strong Name:
-            |  #{location.application[0].name}
+            strong Component:
+            |  #{location.component}
             br
-            strong Domain:
-            |  #{location.application[0].domain}
+            strong Section:
+            |  #{location.section}
             br
             strong Element:
-            |  #{location.application[0].element}
+            |  #{location.element}
             br
             strong Routine:
-            |  #{location.application[0].routine}
+            |  #{location.routine}
 
-        else if location.subsystem && location.subsystem[0]
-          h2 #{location.subsystem[0].type}: #{location.subsystem[0].name}
+        else
+          h2 #{location.component}: #{location.description} - #{location.type}
 
           p
             strong Location's type:
-            |  Subsystem
+            |  #{location.type}
           p
-            strong Name:
-            |  #{location.subsystem[0].name}
+            strong Component:
+            |  #{location.component}
             br
-            strong Type:
-            |  #{location.subsystem[0].type}
-
-        else if location.special && location.special[0]
-          h2 #{location.special[0].type}
-
-          p
-            strong Location's type:
-            |  Special
-          p
             strong Description:
-            |  #{location.special[0].description}
-            br
-            strong Type:
-            |  #{location.special[0].type}
+            |  #{location.description}
 
         hr
 
         h3 Inputs
 
-        each input in location.inputs
-          p.parameter
-            strong #{input.type}:
-            |  #{input.name}
-            br
-            if input.value
-              | #{input.value}
+        if location.inputs
+          each input in location.inputs
+            p.parameter
+              strong #{input.type}:
+              |  #{input.name}
+              br
+              if input.value
+                | #{input.value}
 
         h3 Outputs
 
-        each output in location.outputs
-          p.parameter
-            strong #{output.type}:
-            |  #{output.name}
-            br
-            if output.value
-              | #{output.value}
+        if location.outputs
+          each output in location.outputs
+            p.parameter
+              strong #{output.type}:
+              |  #{output.name}
+              br
+              if output.value
+                | #{output.value}
 
         if location.locations && location.locations.length > 0
-          a(class='expander' href='#') Location's Locations
+          a(class='expander expanded' href='#') Location's Locations
 
           .content
             +RenderLocations(location.locations)
@@ -107,7 +96,7 @@ block content
         strong Description:
         |  #{resource.description}
 
-      a(class='expander' href='#') Interaction's Locations
+      a(class='expander expanded' href='#') Interaction's Locations
 
       .content
         +RenderLocations(resource.locations)

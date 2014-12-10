@@ -11,15 +11,12 @@ var isRemoveCollectionEnabled = true;
 var isRemoveDocumentEnabled = true;
 
 function createLocationIdentifier(locations) {
-
   if (locations && locations.length > 0) {
-    for (i = 0; i < locations.length; i++) {
+    for (var i = 0, count = locations.length; i < count; i++) {
       locations[i]._id = mongoose.Types.ObjectId();
       createLocationIdentifier(locations[i].locations);
     }
   }
-
-  return true;
 }
 
 /* GET: return Locations */
@@ -42,24 +39,19 @@ router.get('/:id', function(req, res) {
 
 /* POST: create a Interaction */
 router.post('/', function(req, res) {
+    try {
+      var interaction = new Interaction(req.body.interaction);
+      createLocationIdentifier(interaction.locations);
 
-  try {
-
-    InteractionEngine.validate(req.body.interaction);
-
-    var interaction = new Interaction(req.body.interaction);
-    createLocationIdentifier(interaction.locations);
-
-    interaction.save(function(err) {
-      if (err) throw err;
-      res.status(201);
-	  	res.json(interaction);
-	  });
-
-  } catch(err) {
-    res.status(400);
-    res.send('An error has occurred: ' + err);
-  }
+      interaction.save(function(err) {
+        if (err) throw err;
+        res.status(201);
+  	  	res.json(interaction);
+	    });
+    } catch(err) {
+      res.status(400);
+      res.send('An error has occurred: ' + err);
+    }
 });
 
 /* DELETE: delete Locations */

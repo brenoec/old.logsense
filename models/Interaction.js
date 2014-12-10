@@ -12,9 +12,7 @@ var LocationSchema = new Schema({
 	// mandatory
 	system: String,
 	solution: String,
-
-	title: String,
-	name: String,
+	component: String,
 
   type: String,
 
@@ -22,7 +20,7 @@ var LocationSchema = new Schema({
 	description: String,
 
 	// if inner location
-	domain: String,         // namespace
+	section: String,         // namespace
 	element: String,        // class
 	routine: String,         // method
 
