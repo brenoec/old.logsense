@@ -12,20 +12,14 @@ var interactions = require('./routes/interactions');
 
 var reports = require('./routes/reports');
 
-//var env = 'development';
-var env = null;
+var env = 'production';
 
 // connects to mongodb
 var mongoose = require('mongoose');
 var mongo;
 
-//if (env === 'development') {
-//  mongo = 'mongodb://localhost/test';
-//  mongoose.connect(mongo);
-//} else {
 mongo = 'mongodb://brenosouza:cefetmglogsense@kahana.mongohq.com:10045/app30139807/test';
 mongoose.connect(mongo);
-//}
 
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'mongoose connection'));

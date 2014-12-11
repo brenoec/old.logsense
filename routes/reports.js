@@ -3,26 +3,12 @@ var router = express.Router();
 
 var http = require('http');
 
-var options = null;
-
-var localoptions = {
-  host: 'localhost',
-  port: '3000'
-};
-
-var remoteoptions = {
+var options = {
   host: 'logsense.herokuapp.com'
 };
 
 /* GET reports/locations. */
 router.get('/locations/:id?', function(req, res) {
-
-  if (req.app.get('env') === 'development') {
-    options = localoptions;
-  } else {
-    options = remoteoptions;
-  }
-
   var id = req.param("id");
 
   var chain = [
@@ -35,7 +21,7 @@ router.get('/locations/:id?', function(req, res) {
     },
     function(res) {
       res.setEncoding('utf8');
-      res.on('data', chain.shift());
+      res.end('data', chain.shift());
     },
     function(json) {
       res.render('reports/locations', { title: 'logsense', report: 'Locations', resources: JSON.parse(json) });
@@ -47,13 +33,9 @@ router.get('/locations/:id?', function(req, res) {
 
 /* GET reports/locations. */
 router.get('/interactions/:id?', function(req, res) {
-  if (req.app.get('env') === 'development') {
-    options = localoptions;
-  } else {
-    options = remoteoptions;
-  }
-
   var id = req.param("id");
+
+  var json = '';
 
   var chain = [
     function() {
@@ -61,13 +43,18 @@ router.get('/interactions/:id?', function(req, res) {
       if (id) {
         options.path += '/#' + id;
       }
-      http.get(options, chain.shift());
+      http.get(options, function(res) {
+        res.setEncoding('utf8');
+
+        res.on('data', function(chunk) {
+          json += chunk;
+        });
+
+        res.on('end', chain.shift());
+      });
     },
-    function(res) {
-      res.setEncoding('utf8');
-      res.on('data', chain.shift());
-    },
-    function(json) {
+    function() {
+      console.log(json);
       res.render('reports/interactions', { title: 'logsense', report: 'Interactions', resources: JSON.parse(json) });
     }
   ];

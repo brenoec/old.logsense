@@ -21,19 +21,17 @@ function createLocationIdentifier(locations) {
 
 /* GET: return Locations */
 router.get('/', function(req, res) {
-
-  Interaction.find(function (err, interactions) {
-    res.json(interactions);
+  Interaction.find({}, function (err, data) {
+    res.json(data);
   });
 });
 
 /* GET: return Interaction */
 router.get('/:id', function(req, res) {
-
   var id = req.param("id");
 
-  Interaction.findOne( { "_id" : id }, function (err, interaction) {
-    res.json(interaction);
+  Interaction.findOne( { "_id" : id }, function (err, data) {
+    res.json(data);
   });
 });
 
